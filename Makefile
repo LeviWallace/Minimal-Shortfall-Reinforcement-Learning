@@ -2,10 +2,12 @@ CXX=$(TOOLPREFIX)g++
 FLAGS=-Wall -g -c -std=c++17
 OUTDIR=dist
 
+TF=-I./vendor/tf/include -L./vendor/tf/lib
+
 all: $(OUTDIR)/main
 
 $(OUTDIR)/main: src/main.cpp | $(OUTDIR) 
-	$(CXX) -Wall -g -std=c++17 -o $@ $^
+	$(CXX) $(TF) -Wall -g -std=c++17 -o $@ $^ -ltensorflow
 
 $(OUTDIR):
 	mkdir -p $(OUTDIR)

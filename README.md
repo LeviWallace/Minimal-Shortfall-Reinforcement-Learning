@@ -4,6 +4,8 @@
 ### Software 
 
 C++
+[Tensor Flow](https://www.tensorflow.org/install/lang_c)
+Make
 
 ### Contributers
 
