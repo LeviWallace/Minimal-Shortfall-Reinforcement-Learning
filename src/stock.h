@@ -33,5 +33,10 @@ private:
 	std::vector<float> price_changes; // Change in S	
 	float price_mean; // Mean
 
-	void LoadPrices();
+	std::vector<int> volume_changes; // Change in V
+
+
+	void LoadPrices(); // load prices and calculates S, dS, Mean, and dV
+	void CalculateMarketVWAP(); 
+	void CalculateTraderVWAP(); 
 };

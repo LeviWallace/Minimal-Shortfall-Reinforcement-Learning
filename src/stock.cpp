@@ -28,6 +28,7 @@ void Stock::LoadPrices()
 	
 	// Loop through each line in file
 	float last_price = -1;
+	float last_volume = -1;
 	while(std::getline(file, line))
 	{
 		// Initialize
@@ -39,13 +40,19 @@ void Stock::LoadPrices()
 		std::getline(stream, s_price, ',');
 
 		// Set Variables
-		// int volume = std::stoi(s_volume);
+		int volume = std::stoi(s_volume);
 		float price = std::stof(s_price);
 		
 		
 		// Add to prices
 		prices.push_back(price);
 		
+		// Check if last volume set
+		if (last_price > 0) {
+			// Add to volume
+			volume_changes.push_back(volume - last_volume);
+		}
+
 		// Check if initialized
 		if (last_price > 0) {
 			// Add to price changes
@@ -55,7 +62,10 @@ void Stock::LoadPrices()
 			// Add to price mean
 			price_mean += difference;
 		}
+	
+		// Update for next cycle
 		last_price = price;
+		last_volume = volume;
 	}
 	price_mean /= csv_size;
 	return;
