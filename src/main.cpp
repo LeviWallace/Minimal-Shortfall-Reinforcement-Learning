@@ -10,13 +10,14 @@ int main() {
 	
 	std::map<std::string, int> stocks_mapping;
 	
-	stocks_mapping["AAPL"] = 1669;
+	stocks_mapping["AAPL"] = 1668;
 	stocks_mapping["GOOG"] = 1560;
 	stocks_mapping["IBM"] = 1549;
 	stocks_mapping["TI"] = 1581;
 	stocks_mapping["VZ"] = 1559;
 	stocks_mapping["XOM"] = 1556;
 
+	// Building stock profile
 	std::vector<Stock> stocks;
 	stocks.reserve(STOCKS);
 	
@@ -31,28 +32,29 @@ int main() {
 		}
 		index++;
 	}
-		
+	
+	// Calculating covarience between pairs of stocks	
 	float covarience[STOCKS][STOCKS];
 	for (unsigned int i = 0; i < STOCKS; i++) {
-		for (unsigned int j = 0; j < STOCKS; j++) {
+		for (unsigned int j = 0; j <= i; j++) {
 			float cov = stocks[i].CalculateCovarience(stocks[j]);
 			covarience[i][j] = cov;
 			covarience[j][i] = cov;
 		}
 	}
 
-	std::cout << '\n';
-	std::cout << "EXCEPTED MEAN RETURNS: \n";
+	// Printing out mean
+	std::cout << "\nEXCEPTED MEAN RETURNS: \n";
 	for (unsigned int i = 0; i < STOCKS; i++) {
 		std::cout << stocks[i].GetTicker() << "\t" <<  stocks[i].GetPriceMean() << '\n';
 	}
 	
-	std::cout << '\n';
-	
-	std::cout << "COVARIENCE MATRIX: \n";
+
+	// Printing out covarience matrix
+	std::cout << "\nCOVARIENCE MATRIX: \n";
 	for (unsigned int i = 0; i < STOCKS; i++) {
 		for (unsigned int j = 0; j < STOCKS; j++) {
-			std::cout << covarience[i][j] << " ";
+			std::cout << covarience[i][j] << "\t";
 		}
 		std::cout << '\n';
 	}

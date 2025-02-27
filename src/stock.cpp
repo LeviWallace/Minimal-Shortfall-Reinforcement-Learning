@@ -46,30 +46,36 @@ void Stock::LoadPrices()
 		// Add to prices
 		prices.push_back(price);
 		
-		// Add to price changes
 		// Check if initialized
 		if (last_price > 0) {
-			price_changes.push_back((price - last_price) / last_price);
-		} 
-		last_price = price;
+			// Add to price changes
+			float difference = (price - last_price) / last_price;
+			price_changes.push_back(difference); 
 
-		// Add to price mean
-		price_mean += price / csv_size;
+			// Add to price mean
+			price_mean += difference;
+		}
+		last_price = price;
 	}
+	price_mean /= csv_size;
 	return;
 }
 
-float Stock::CalculateCovarience(const Stock& other)
+double Stock::CalculateCovarience(const Stock& other)
 {
-	float covarience = 0;
-	const std::vector<float>* other_prices = other.GetPrices();
+	double covarience = 0;
+		
+	// Get other variables
+	const std::vector<float>* other_price_changes = other.GetPriceChanges();
 	const float other_price_mean = other.GetPriceMean();
 
+	// Get minimum size
 	const int adjusted_size = csv_size > other.GetSize() ? other.GetSize() : csv_size;
 
+	// Calculate covarience
 	for (int idx = 0; idx < adjusted_size; idx++)
 	{
-		covarience += (prices[idx] - price_mean) * ((*other_prices)[idx] - other_price_mean);
+		covarience += (price_changes[idx] - price_mean) * ((*other_price_changes)[idx] - other_price_mean);
 	}
 
 	return covarience /= adjusted_size;
