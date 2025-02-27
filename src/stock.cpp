@@ -15,10 +15,11 @@ Stock::Stock(const std::string& ticker, const std::string& csv_location, const u
 		throw std::runtime_error("(stock.c) Invalid File Location: " + csv_location + '\n');
 	}
 
-	LoadPrices();
+	CalculatePrices();
+	CalculateMarketVWAP();
 }
 
-void Stock::LoadPrices()
+void Stock::CalculatePrices()
 {
 	std::cout << "Loading Prices..." << '\n';		
 	std::string line;
@@ -80,17 +81,32 @@ double Stock::CalculateCovarience(const Stock& other)
 	const float other_price_mean = other.GetPriceMean();
 
 	// Get minimum size
-	const int adjusted_size = csv_size > other.GetSize() ? other.GetSize() : csv_size;
+	const unsigned int adjusted_size = csv_size > other.GetSize() ? other.GetSize() : csv_size;
 
 	// Calculate covarience
-	for (int idx = 0; idx < adjusted_size; idx++)
-	{
+	for (unsigned int idx = 0; idx < adjusted_size; idx++) {
 		covarience += (price_changes[idx] - price_mean) * ((*other_price_changes)[idx] - other_price_mean);
 	}
 
 	return covarience /= adjusted_size;
 }
 
+void Stock::CalculateMarketVWAP()
+{
+	double numerator = 0;
+	double denominator = 0;	
+
+	for (unsigned int idx = 0; idx < csv_size; idx++) {
+		numerator += prices[idx] * volume_changes[idx];
+		denominator += volume_changes[idx];
+	}
+
+	if (!denominator) {
+		market_vwap = 0;
+	} else {
+		market_vwap = numerator / denominator;
+	}
+}
 
 Stock::~Stock()
 {

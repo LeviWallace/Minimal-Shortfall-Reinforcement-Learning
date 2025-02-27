@@ -29,14 +29,17 @@ private:
 	std::ifstream file;
 	unsigned int csv_size;
 
+	// PRICE VARIABLES
 	std::vector<float> prices; // S
 	std::vector<float> price_changes; // Change in S	
 	float price_mean; // Mean
 
+	// VOLUME VARIABLES
 	std::vector<int> volume_changes; // Change in V
 
+	// VWAP VARIABLES
+	double market_vwap;
 
-	void LoadPrices(); // load prices and calculates S, dS, Mean, and dV
+	void CalculatePrices(); // Load prices and calculates S, dS, Mean, and dV
 	void CalculateMarketVWAP(); 
-	void CalculateTraderVWAP(); 
 };
