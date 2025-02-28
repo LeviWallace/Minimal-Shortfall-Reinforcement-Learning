@@ -108,6 +108,23 @@ void Stock::CalculateMarketVWAP()
 	}
 }
 
+void Stock::CalculateTargetVWAP(const std::vector<int>& actions)
+{
+	double numerator = 0;
+	double denominator = 0;	
+
+	for (unsigned int idx = 0; idx < actions.size(); idx++) {
+		numerator += prices[idx] * actions[idx];
+		denominator += actions[idx];
+	}
+
+	if (!denominator) {
+		target_vwap = 0;
+	} else {
+		target_vwap = numerator / denominator;
+	}
+}
+
 Stock::~Stock()
 {
 	return;

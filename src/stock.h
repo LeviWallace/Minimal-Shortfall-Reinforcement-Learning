@@ -39,7 +39,9 @@ private:
 
 	// VWAP VARIABLES
 	double market_vwap;
+	double target_vwap;
 
 	void CalculatePrices(); // Load prices and calculates S, dS, Mean, and dV
 	void CalculateMarketVWAP(); 
+	void CalculateTargetVWAP(const std::vector<int>& actions); 
 };

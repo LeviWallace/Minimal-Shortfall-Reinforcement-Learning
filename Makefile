@@ -26,7 +26,7 @@ create:
 	mkdir -p $(OUTDIR)
 
 clean:
-	rm -rf $(OUTDIR) $(TARGET)
+	rm -rf *.swp *.swo $(OUTDIR) $(TARGET)
 
 run: create build	
 	./msrl
